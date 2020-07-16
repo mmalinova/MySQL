@@ -1,0 +1,51 @@
+    Клиент се обажда за резервация, като давса две дати - тази, на която иска 
+                да се настани и тази, на която иска да напусне.
+
+1. Заявка,чрез която да върнем всички стаи, които нямат резервации за този период от време.
+Резултатът е списък от свободни стаи, включително: тип, услуги, удобства, технологии и т.н, 
+за да може от този списък рецепционистката да резервира най-подходящата.
+
+SELECT ID_ROOM, ROOM_NUMBER, SERVISES, ACCESSIBILITY, TECHNOLOGY, ROOM_HOTEL_ID, ACCOMMODATION_DATE,
+DEPARTURE_DATE, ALL_INCLUSIVE, SPA, ID_TYPE, VARIETY 
+FROM ROOM AS R, BOOKING AS B, TYPE AS T, ROOM_has_BOOKING AS HAS
+WHERE HAS.ROOM_ID_ROOM = R.ID_ROOM AND BOOKING_ID_BOOKING = B.ID_BOOKING AND
+R.ROOM_TYPE_ID = T.ID_TYPE AND B.ACCOMMODATION_DATE NOT BETWEEN '2020-05-10' AND '2020-05-20'
+AND B.DEPARTURE_DATE NOT BETWEEN '2020-05-10' AND '2020-05-20'
+
+2. Създава се нова резервация за стаята, която е избрана.
+
+INSERT INTO 43a_spa_hotel.BOOKING
+(ID_BOOKING,
+ACCOMMODATION_DATE,
+DEPARTURE_DATE,
+ADULTS_NUM,
+CHILDREN_NUM,
+ALL_INCLUSIVE,
+SPA,
+BOOKING_CLIENT_ID)
+VALUES
+('6',
+'2020-05-10',
+'2020-05-20',
+'2',
+'0',
+'Y',
+'Y',
+'6');
+
+3. Създава се новия клиент.
+
+INSERT INTO 43a_spa_hotel.CLIENT
+(ID_CLIENT,
+FNAME,
+LNAME,
+TEL,
+ID_REQUEST)
+VALUES
+(6,
+'Елина',
+'Симеонова',
+'0899455412',
+'6');
+
+
